@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="Sentry's NF-e Editor: a professional case study by Raphael Azevdo. Full-stack development with React, Next.js, NestJS, PostgreSQL and fiscal integration.">
+  <title>NF-e Editor — Case study by Raphael Azevdo</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="alternate" hreflang="pt-BR" href="editor-nfe.html">
+  <link rel="alternate" hreflang="en" href="editor-nfe-en.html">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <div class="wrap">
+    <header><a class="brand" href="index-en.html">Raphael Azevdo</a><div class="header-tools"><nav aria-label="Main navigation"><a href="index-en.html#projects">Projects</a><a href="index-en.html#contact">Contact</a></nav><nav class="language-switch" aria-label="Language"><a href="editor-nfe.html" lang="pt-BR" aria-label="Português">PT</a><span aria-hidden="true">/</span><a href="editor-nfe-en.html" lang="en" aria-current="page" aria-label="English">EN</a></nav></div></header>
+    <main id="content">
+      <section class="case-hero" aria-labelledby="title">
+        <p class="eyebrow">Professional case study · Sentry</p>
+        <h1 id="title">NF-e Editor<span style="color:var(--accent)">.</span></h1>
+        <p class="case-subtitle">Correcting, validating and resubmitting Brazilian electronic invoices through an integrated operational workflow.</p>
+        <p class="project-description">An internal tool that turns inconsistent order data into guided corrections, with consistent persistence and actionable feedback from the fiscal integration.</p>
+        <dl class="case-meta"><div><dt>My role</dt><dd>Junior Full-stack Developer</dd></div><div><dt>Context</dt><dd>E-commerce, logistics and billing</dd></div><div><dt>Scope</dt><dd>Interface, API, data and integrations</dd></div></dl>
+        <div class="tags" aria-label="Main technologies"><span>React</span><span>Next.js</span><span>TypeScript</span><span>NestJS</span><span>TypeORM</span><span>PostgreSQL</span></div>
+      </section>
+      <div class="case-layout">
+        <nav class="case-nav" aria-label="Case study sections"><a href="#problem">01 · Problem</a><a href="#solution">02 · Solution</a><a href="#contribution">03 · My contribution</a><a href="#architecture">04 · Architecture</a><a href="#decisions">05 · Technical decisions</a><a href="#technologies">06 · Technologies</a><a href="#outcome">07 · Outcome</a></nav>
+        <div class="case-body">
+          <section class="section" id="problem" aria-labelledby="problem-title">
+            <p class="eyebrow">01 · Context and problem</p><h2 id="problem-title">One incorrect field could interrupt billing.</h2>
+            <p>Sentry is an internal order management system covering logistics, inventory, billing and invoice issuance. Order information passes through several stages and integrations before an NF-e, Brazil's electronic fiscal invoice, is processed.</p>
+            <p>Incorrect customer details, incomplete addresses and invalid product tax data could cause invoice rejections. In some cases, finding and correcting the issue required technical or operational intervention, including manual data changes.</p>
+            <p>The challenge was to provide a correction workflow within the system: <strong>identify the problematic information, guide the edit and allow another processing attempt with validated data</strong>.</p>
+            <h3>An issue observed during development</h3><p>The fiscal integration rejected a request that lacked valid recipient identification. This showed that editable fields were only part of the solution: data validation and a clear explanation of the rejection were also needed before resubmission.</p>
+          </section>
+          <section class="section" id="solution" aria-labelledby="solution-title">
+            <p class="eyebrow">02 · The solution</p><h2 id="solution-title">Centralized corrections, from the order to the fiscal response.</h2>
+            <p>The NF-e Editor brings together order lookup, editing of invoice data and resubmission to Focus NF-e. The interface lets operations staff follow the workflow instead of relying on a generic failure message.</p>
+            <h3>Recipient and address</h3><p>Editing of name or legal business name, identification, state tax registration, postal code, street, number, address complement, municipality and state. ViaCEP lookup helps populate address fields from the Brazilian postal code.</p>
+            <h3>Product data</h3><p>Correction of EAN product identifiers and NCM tax classification codes on order items, using each item's identifier to update the corresponding information.</p>
+            <h3>Validation and resubmission</h3><p>Required fields and invalid information are checked before submission. Once corrections are saved, the backend rebuilds the payload with the updated data and reuses the existing fiscal processing workflow.</p>
+            <h3>Feedback and continuity</h3><p>Loading, success and error states make progress visible. If an attempt fails, the form retains the entered data so users can make further corrections and try again.</p>
+          </section>
+          <section class="section" id="contribution" aria-labelledby="contribution-title">
+            <p class="eyebrow">03 · My contribution</p><h2 id="contribution-title">Working across the interface, business logic and integration.</h2>
+            <p>I contributed to the feature's full-stack development, working on parts of the interface and backend responsible for editing, validating, persisting and resubmitting invoice data.</p>
+            <ul><li><strong>Frontend:</strong> editor components and forms, interface state, typed data structures, endpoint consumption, validation and postal code lookup.</li><li><strong>Backend:</strong> endpoints, DTOs, business rules, recipient and item updates, persistence and coordination of invoice resubmission.</li><li><strong>Integrations:</strong> preparing data sent to Focus NF-e and interpreting responses to provide useful feedback to operations staff.</li><li><strong>Diagnosis:</strong> investigating rejections and inconsistencies involving payloads, API contracts, database records and interface behavior.</li></ul>
+            <p>This required following issues across layers. A failure visible in the form could originate in the endpoint contract, persisted data or the response from the fiscal service.</p>
+          </section>
+          <section class="section" id="architecture" aria-labelledby="architecture-title">
+            <p class="eyebrow">04 · Architecture and workflow</p><h2 id="architecture-title">Saving a correction and processing an invoice are separate steps.</h2>
+            <ol class="technical-flow"><li><strong>Look up and edit</strong><span>React and Next.js load order data through the API and present the form. ViaCEP provides an auxiliary address lookup.</span></li><li><strong>Validate the request</strong><span>The interface checks fields, while NestJS validates the request contract and data through DTOs and business rules.</span></li><li><strong>Persist the changes</strong><span>The order and its items are updated in PostgreSQL within a database transaction.</span></li><li><strong>Resubmit externally</strong><span>After persistence completes, the service rebuilds the payload and uses the existing Focus NF-e integration workflow.</span></li><li><strong>Present the outcome</strong><span>The fiscal response is interpreted and shown in the interface, distinguishing saved corrections from the result of invoice processing.</span></li></ol>
+            <p><strong>A local transaction does not cover the success of an external API call.</strong> The workflow therefore separates what was persisted from what the fiscal service actually returned.</p>
+          </section>
+          <section class="section" id="decisions" aria-labelledby="decisions-title">
+            <p class="eyebrow">05 · Challenges and technical decisions</p><h2 id="decisions-title">Consistency, contracts and the actual operation outcome.</h2>
+            <h3>1. Short transactions, integration after persistence</h3><p>Order and item changes happen within the transaction. The external call follows that step, avoiding an open database transaction while waiting for the fiscal API.</p><p>This separation also makes it possible to clearly represent a situation where data was saved but resubmission failed. The application must guide the next action without implying that every step succeeded.</p>
+            <h3>2. Typed contracts between frontend and backend</h3><p>A concrete mismatch involved sending a product property that the backend DTO did not accept. NestJS validation rejected the payload and helped identify the discrepancy.</p><p>Aligning the contract brought the interface's submitted fields into agreement with the endpoint's accepted data. <strong>TypeScript and runtime validation play complementary roles</strong> in this workflow.</p>
+            <h3>3. HTTP success does not mean the invoice was processed</h3><p>The endpoint could save changes and respond successfully while invoice resubmission failed. The frontend was updated to consider the actual fiscal operation outcome alongside the HTTP status.</p><p>This supports accurate feedback: a successful data update must not hide an integration rejection.</p>
+            <h3>4. Error messages that guide corrections</h3><p>Response handling preserves relevant information returned by Focus NF-e, including specific rejection messages. The interface can retrieve these details to help the user understand what needs to change.</p>
+            <h3>5. Preserving work after a failure</h3><p>Keeping the form populated prevents users from re-entering every correction after an unsuccessful attempt. Error handling becomes part of the correction experience, alongside loading and confirmation states.</p>
+            <h3>6. Traceability as a planned enhancement</h3><p>The project description also covers an audit design with the responsible user, previous and updated values, changed fields, origin and a correlation identifier. This is a <strong>planned design enhancement</strong>, not a claim that complete auditing has already been implemented.</p>
+          </section>
+          <section class="section" id="technologies" aria-labelledby="technologies-title">
+            <p class="eyebrow">06 · Technologies and skills</p><h2 id="technologies-title">A stack applied to an operational problem.</h2>
+            <table class="case-table"><caption style="text-align:left;color:var(--muted);margin-bottom:10px">Technologies directly used in the editor</caption><thead><tr><th scope="col">Layer</th><th scope="col">Technologies</th><th scope="col">Use</th></tr></thead><tbody><tr><th scope="row">Interface</th><td>React, Next.js, TypeScript</td><td>Forms, state and API communication</td></tr><tr><th scope="row">Components</th><td>Tailwind CSS, Shadcn/UI</td><td>Styling, modals and form components</td></tr><tr><th scope="row">Backend</th><td>Node.js, NestJS, TypeScript</td><td>REST APIs, DTOs, validation and business logic</td></tr><tr><th scope="row">Persistence</th><td>TypeORM, PostgreSQL</td><td>Transactional order and item updates</td></tr><tr><th scope="row">Integrations</th><td>Focus NF-e, ViaCEP</td><td>Invoice resubmission and address lookup</td></tr><tr><th scope="row">Diagnosis</th><td>SQL, DBeaver, Insomnia</td><td>Investigating data, requests and responses</td></tr></tbody></table>
+            <p>The project brings together <strong>requirements analysis, full-stack development, systems integration, API contract design, transactional consistency and failure diagnosis</strong>.</p>
+            <p>Sentry is part of a broader e-commerce and operations ecosystem. This case study focuses on the editor and the technologies directly described for that feature.</p>
+          </section>
+          <section class="section" id="outcome" aria-labelledby="outcome-title">
+            <p class="eyebrow">07 · Outcome and lessons</p><h2 id="outcome-title">More autonomy to correct, more clarity to resubmit.</h2>
+            <p>The reported outcome was the centralization of invoice data corrections in an operational interface, helping reduce rework, speed up the handling of rejections and reduce the need for direct technical intervention in the data.</p>
+            <ul><li><strong>Accessible corrections:</strong> editing customer and tax data within the system's workflow.</li><li><strong>Data quality:</strong> validation before another processing attempt.</li><li><strong>Clearer diagnosis:</strong> specific integration messages instead of a generic failure.</li><li><strong>Operational continuity:</strong> form data retained after errors.</li></ul>
+            <p>The main lesson was to follow the operation end to end: <strong>a usable interface, a valid contract, consistent data and a correctly interpreted external response</strong> must work together.</p>
+            <p class="case-note">This case study is based on the project's technical account. Outcomes are qualitative; the available material contains no measured percentages, volumes or time savings. The internal system's source code was not inspected for this review. The presentation uses functional descriptions without customer data or private infrastructure details.</p>
+            <div class="case-actions"><a class="textlink" href="index-en.html#projects">Back to projects <span aria-hidden="true">←</span></a><a class="textlink" href="assets/raphael-azevdo-curriculo.pdf" download="Raphael-Azevdo-Resume-PT.pdf">Download résumé (PT) <span aria-hidden="true">↓</span></a></div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="foot case-footer"><span>Raphael Azevdo</span><a href="mailto:raphaelazevedoo32@gmail.com">Let's talk</a></footer>
+  </div>
+</body>
+</html>
