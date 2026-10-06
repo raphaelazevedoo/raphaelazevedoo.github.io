@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Raphael Azevdo. Desenvolvimento Full Stack, back-end e automação. Conheça o Editor de NF-e: React, Next.js, TypeScript, NestJS e PostgreSQL.">
+  <meta name="theme-color" content="#f7f6f2">
+  <title>Raphael Azevdo — Full Stack & back-end</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+  <div class="wrap">
+    <header><a class="brand" href="#inicio">Raphael Azevdo</a><nav aria-label="Navegação principal"><a href="#projetos">Projetos</a><a href="#sobre">Sobre</a><a href="#contato">Contato</a></nav></header>
+    <main id="conteudo">
+      <section class="hero" id="inicio" aria-labelledby="titulo">
+        <p class="eyebrow">Portfólio · Full Stack & back-end</p>
+        <h1 id="titulo">Raphael Azevdo<span style="color:var(--accent)">.</span></h1>
+        <p class="intro">Desenvolvimento Full Stack e back-end, conectando interfaces, regras de negócio e integrações para resolver problemas reais.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:20px 32px"><a class="textlink" href="#projetos">Conheça os projetos <span aria-hidden="true">↗</span></a><a class="textlink" href="assets/raphael-azevdo-curriculo.pdf" download="Raphael-Azevdo-Curriculo.pdf">Baixar currículo <span aria-hidden="true">↓</span></a></div>
+      </section>
+      <section class="section" id="projetos" aria-labelledby="projetos-titulo">
+        <div class="section-title"><span class="number" aria-hidden="true">01</span><h2 id="projetos-titulo">Projetos selecionados</h2></div>
+        <article aria-labelledby="nfe-titulo" class="featured-project">
+          <p class="eyebrow">Projeto em destaque</p>
+          <div class="project-head"><h3 id="nfe-titulo">Editor de NF-e</h3><span class="label">Projeto profissional · Full Stack</span></div>
+          <p class="project-description">Ferramenta interna do Sentry para corrigir dados cadastrais e fiscais de pedidos, validar informações e reprocessar notas por integração com a Focus NF-e. Atuação na interface, no back-end, na persistência e no diagnóstico de rejeições.</p>
+          <div class="tags" aria-label="Tecnologias do Editor de NF-e"><span>React</span><span>Next.js</span><span>TypeScript</span><span>NestJS</span><span>TypeORM</span><span>PostgreSQL</span></div>
+          <div class="project-highlights"><p><strong>Correção centralizada</strong><span>Destinatário, endereço e dados dos produtos em uma interface.</span></p><p><strong>Consistência dos dados</strong><span>Atualizações em transação antes do reprocessamento externo.</span></p><p><strong>Erros que orientam</strong><span>Retorno fiscal interpretado e preservação do formulário após falhas.</span></p></div>
+          <a class="textlink" href="editor-nfe.html">Conheça o case completo <span aria-hidden="true">↗</span></a>
+        </article>
+        <article>
+          <div class="project-head"><h3>Casa Deals Bot</h3><span class="label">Projeto pessoal · Automação</span></div>
+          <p class="project-description">Seleção e publicação de ofertas com filtros de qualidade, fila persistente e acompanhamento de recibos por destino. Derivado do Tech Deals Bot e adaptado para produtos de casa, móveis e beleza.</p>
+          <div class="tags" aria-label="Tecnologias do projeto"><span>Python</span><span>asyncio</span><span>aiohttp</span><span>SQLite</span><span>Node.js</span></div>
+          <div class="flow" role="img" aria-label="Fluxo: coleta, filtros, fila, revalidação, publicação e recibos"><span>Coleta</span><span class="arrow" aria-hidden="true">→</span><span>Filtros</span><span class="arrow" aria-hidden="true">→</span><span>Fila</span><span class="arrow" aria-hidden="true">→</span><span>Revalidação</span><span class="arrow" aria-hidden="true">→</span><span>Publicação</span><span class="arrow" aria-hidden="true">→</span><span>Recibos</span></div>
+          <details><summary>Leia o case: uma mensagem enviada, um registro incompleto</summary>
+            <div class="case">
+              <h3>O problema</h3><p>Uma oferta foi aceita pelo WhatsApp, mas a finalização interna falhou: o código tentou converter um identificador alfanumérico em número. O recibo estava salvo; a fila ainda não refletia a conclusão.</p>
+              <h3>A decisão</h3><p>Preservar o identificador no formato correto e consultar os recibos persistidos antes de agir. A recuperação dos registros afetados exige confirmação de todos os destinos e ausência de uma publicação já concluída.</p>
+              <h3>O resultado</h3><p>Os registros que atendem a essas condições podem ser reconciliados <strong>sem reenviar a mensagem confirmada</strong>. Quando o resultado é incerto, o fluxo exige revisão antes de uma nova tentativa.</p>
+              <h3>O que foi verificado</h3><ul><li>26 testes locais do bridge de WhatsApp aprovados em 6 de outubro de 2026.</li><li>Testes existentes em Python para IDs alfanuméricos e recuperação repetida sem duplicar o histórico.</li><li>Fluxos implementados de revalidação, persistência e recibos individuais por destino.</li></ul>
+              <p class="note">Desenvolvimento com apoio de IA. A suíte Python não foi reexecutada nesta revisão por falta de pytest. Testes locais não comprovam entrega em serviços reais. O bridge utiliza Baileys, uma integração não oficial, e o tratamento de falhas não garante entrega exatamente uma vez em todos os cenários.</p>
+            </div>
+          </details>
+        </article>
+      </section>
+      <section class="section" id="sobre" aria-labelledby="sobre-titulo">
+        <div class="section-title"><span class="number" aria-hidden="true">02</span><h2 id="sobre-titulo">Sobre mim</h2></div>
+        <div class="about"><div class="principle">Entender o problema.<br>Construir a solução.<br>Verificar o resultado.</div><div><p>Sou Raphael Azevdo, desenvolvedor com atuação Full Stack e foco em back-end, APIs REST e integração de sistemas. Transformo necessidades operacionais em interfaces e regras de negócio, com atenção à qualidade e à consistência dos dados.</p><p>No Editor de NF-e do Sentry, atuei na interface com React e Next.js, no back-end com NestJS e TypeScript e na persistência em PostgreSQL, conectando validações e reprocessamento fiscal.</p><p>Também desenvolvo projetos pessoais de automação com Python, Node.js e SQLite. No Casa Deals Bot, exploro processamento assíncrono, testes, deduplicação e recuperação de falhas, com apoio de IA no desenvolvimento.</p></div></div>
+      </section>
+      <section class="section" id="curriculo" aria-labelledby="curriculo-titulo">
+        <div class="section-title"><span class="number" aria-hidden="true">03</span><h2 id="curriculo-titulo">Currículo</h2></div>
+        <p style="color:var(--muted);max-width:520px">Minha trajetória profissional, formação e competências em um só documento.</p>
+        <a class="textlink" href="assets/raphael-azevdo-curriculo.pdf" download="Raphael-Azevdo-Curriculo.pdf">Baixar currículo em PDF <span aria-hidden="true">↓</span></a>
+        <p style="font-size:12px;color:var(--muted);margin-top:16px">PDF · 120 KB</p>
+      </section>
+      <section class="section" id="contato" aria-labelledby="contato-titulo">
+        <div class="section-title"><span class="number" aria-hidden="true">04</span><h2 id="contato-titulo">Vamos conversar</h2></div>
+        <p style="color:var(--muted);max-width:520px">Para conversar sobre projetos, desenvolvimento back-end ou oportunidades profissionais.</p>
+        <p><a class="textlink" href="mailto:raphaelazevedoo32@gmail.com">raphaelazevedoo32@gmail.com <span aria-hidden="true">↗</span></a></p>
+        <div style="display:flex;gap:28px;font-size:14px"><a href="https://www.linkedin.com/in/raphael-azevedo32/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/raphaelazevedoo" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></div>
+      </section>
+    </main>
+    <footer class="foot"><span>Raphael Azevdo</span><span>Projetos & decisões · 2026</span></footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="Editor de NF-e do Sentry: case profissional de Raphael Azevdo. Desenvolvimento Full Stack com React, Next.js, NestJS, PostgreSQL e integração fiscal.">
+  <title>Editor de NF-e — Case de Raphael Azevdo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+  <div class="wrap">
+    <header><a class="brand" href="index.html">Raphael Azevdo</a><nav aria-label="Navegação principal"><a href="index.html#projetos">Projetos</a><a href="index.html#contato">Contato</a></nav></header>
+    <main id="conteudo">
+      <section class="case-hero" aria-labelledby="titulo">
+        <p class="eyebrow">Case profissional · Sentry</p>
+        <h1 id="titulo">Editor de NF-e<span style="color:var(--accent)">.</span></h1>
+        <p class="case-subtitle">Correção, validação e reprocessamento de notas fiscais em um fluxo operacional integrado.</p>
+        <p class="project-description">Uma ferramenta interna para transformar inconsistências de pedidos em correções orientadas pela interface, com persistência consistente e retorno útil da integração fiscal.</p>
+        <dl class="case-meta"><div><dt>Minha atuação</dt><dd>Desenvolvedor Full Stack Júnior</dd></div><div><dt>Contexto</dt><dd>E-commerce, logística e faturamento</dd></div><div><dt>Escopo</dt><dd>Interface, API, dados e integrações</dd></div></dl>
+        <div class="tags" aria-label="Tecnologias principais"><span>React</span><span>Next.js</span><span>TypeScript</span><span>NestJS</span><span>TypeORM</span><span>PostgreSQL</span></div>
+      </section>
+      <div class="case-layout">
+        <nav class="case-nav" aria-label="Seções do case"><a href="#problema">01 · Problema</a><a href="#solucao">02 · Solução</a><a href="#participacao">03 · Minha participação</a><a href="#arquitetura">04 · Arquitetura</a><a href="#decisoes">05 · Decisões técnicas</a><a href="#tecnologias">06 · Tecnologias</a><a href="#resultado">07 · Resultado</a></nav>
+        <div class="case-body">
+          <section class="section" id="problema" aria-labelledby="problema-titulo">
+            <p class="eyebrow">01 · Contexto e problema</p><h2 id="problema-titulo">Um dado incorreto podia interromper o faturamento.</h2>
+            <p>O Sentry é um sistema interno de gestão de pedidos, com processos de logística, estoque, faturamento e emissão de notas fiscais. As informações de um pedido percorrem diferentes etapas e integrações até chegar ao processamento da NF-e.</p>
+            <p>Dados cadastrais, endereços incompletos e informações fiscais dos produtos podiam gerar rejeições. Em determinados casos, identificar e corrigir a inconsistência exigia intervenção técnica ou operacional, inclusive alterações manuais nos dados.</p>
+            <p>O desafio era oferecer um caminho de correção dentro do próprio sistema: <strong>localizar a informação problemática, orientar a edição e permitir uma nova tentativa com dados validados</strong>.</p>
+            <h3>Exemplo observado durante o desenvolvimento</h3>
+            <p>A integração fiscal rejeitou uma requisição sem uma identificação válida do destinatário. A situação mostrou que disponibilizar campos editáveis era apenas uma parte da solução: também era preciso validar o conteúdo e apresentar a causa da rejeição antes de tentar novamente.</p>
+          </section>
+          <section class="section" id="solucao" aria-labelledby="solucao-titulo">
+            <p class="eyebrow">02 · A solução</p><h2 id="solucao-titulo">Correção centralizada, do pedido ao retorno fiscal.</h2>
+            <p>O Editor de NF-e reúne a consulta do pedido, a edição das informações utilizadas no processamento e o reenvio à Focus NF-e. A interface permite que a operação acompanhe o fluxo sem depender de uma mensagem genérica de falha.</p>
+            <h3>Destinatário e endereço</h3><p>Edição de nome ou razão social, identificação, inscrição estadual, CEP, endereço, número, complemento, município e UF. A consulta ao ViaCEP auxilia no preenchimento do endereço a partir do CEP informado.</p>
+            <h3>Dados dos produtos</h3><p>Correção de EAN e NCM nos itens do pedido, com associação aos identificadores dos itens para atualizar as informações correspondentes.</p>
+            <h3>Validação e reprocessamento</h3><p>Verificação de campos obrigatórios e informações inválidas antes do envio. Após salvar as correções, o back-end reconstrói o payload com os dados atualizados e reutiliza o fluxo de processamento fiscal existente.</p>
+            <h3>Feedback e continuidade</h3><p>Estados de carregamento, sucesso e erro tornam o andamento visível. Em caso de falha, o formulário preserva as informações preenchidas para permitir ajustes e uma nova tentativa.</p>
+          </section>
+          <section class="section" id="participacao" aria-labelledby="participacao-titulo">
+            <p class="eyebrow">03 · Minha participação</p><h2 id="participacao-titulo">Atuação entre interface, regra de negócio e integração.</h2>
+            <p>Atuei no desenvolvimento Full Stack da funcionalidade, trabalhando em partes da interface e do back-end responsáveis pela edição, validação, persistência e reprocessamento dos dados da NF-e.</p>
+            <ul><li><strong>Front-end:</strong> componentes e formulários do editor, estado da interface, modelagem tipada dos dados, consumo de endpoints, validações e consulta de CEP.</li><li><strong>Back-end:</strong> endpoints, DTOs, regras de negócio, atualização de destinatário e itens, persistência e coordenação do reprocessamento.</li><li><strong>Integrações:</strong> montagem dos dados enviados à Focus NF-e e interpretação das respostas para apresentar mensagens úteis à operação.</li><li><strong>Diagnóstico:</strong> investigação de rejeições e inconsistências envolvendo payloads, contratos da API, banco de dados e comportamento da interface.</li></ul>
+            <p>Essa atuação exigiu acompanhar o problema através das diferentes camadas. Uma falha percebida no formulário podia ter origem no contrato do endpoint, nos dados persistidos ou no retorno do serviço fiscal.</p>
+          </section>
+          <section class="section" id="arquitetura" aria-labelledby="arquitetura-titulo">
+            <p class="eyebrow">04 · Arquitetura e fluxo</p><h2 id="arquitetura-titulo">Salvar a correção e processar a nota são etapas distintas.</h2>
+            <ol class="technical-flow"><li><strong>Consultar e editar</strong><span>React e Next.js carregam os dados do pedido pela API e apresentam o formulário. ViaCEP funciona como integração auxiliar para o endereço.</span></li><li><strong>Validar a requisição</strong><span>A interface verifica os campos e o NestJS valida o contrato e os dados recebidos por meio de DTOs e regras de negócio.</span></li><li><strong>Persistir as alterações</strong><span>Pedido e itens são atualizados em PostgreSQL, dentro da transação de banco.</span></li><li><strong>Reprocessar externamente</strong><span>Após a conclusão da persistência, o serviço reconstrói o payload e utiliza o fluxo existente de integração com a Focus NF-e.</span></li><li><strong>Apresentar o resultado</strong><span>O retorno fiscal é interpretado e disponibilizado na interface, distinguindo a correção salva do resultado do reprocessamento.</span></li></ol>
+            <p><strong>Uma transação local não engloba o sucesso de uma API externa.</strong> Por isso, o desenho do fluxo separa o que foi persistido daquilo que o serviço fiscal efetivamente retornou.</p>
+          </section>
+          <section class="section" id="decisoes" aria-labelledby="decisoes-titulo">
+            <p class="eyebrow">05 · Desafios e decisões técnicas</p><h2 id="decisoes-titulo">Consistência, contratos e resultado real da operação.</h2>
+            <h3>1. Transação curta, integração após a persistência</h3><p>As alterações do pedido e dos itens são realizadas dentro da transação. A chamada externa ocorre após essa etapa, evitando manter uma transação aberta enquanto o sistema aguarda a API fiscal.</p><p>Essa separação também permite representar com clareza uma situação em que os dados foram salvos, mas o reprocessamento falhou. A aplicação precisa orientar a próxima ação sem sugerir que todas as etapas tiveram sucesso.</p>
+            <h3>2. Contratos tipados entre front-end e back-end</h3><p>Uma inconsistência concreta envolveu o envio de uma propriedade de produto que não era aceita pelo DTO do back-end. A validação do NestJS rejeitou o payload e ajudou a localizar a divergência.</p><p>A adequação do contrato alinhou os campos enviados pela interface aos dados aceitos pelo endpoint. <strong>TypeScript e validação em execução cumprem papéis complementares</strong> nesse fluxo.</p>
+            <h3>3. HTTP bem-sucedido não é sinônimo de NF-e processada</h3><p>O endpoint podia salvar as alterações e responder normalmente, enquanto a etapa de reprocessamento retornava uma falha. O front-end passou a considerar o resultado efetivo da operação fiscal, além do status HTTP.</p><p>Isso permite apresentar feedback coerente: sucesso na atualização dos dados não deve esconder uma rejeição da integração.</p>
+            <h3>4. Mensagens que ajudam a corrigir</h3><p>O tratamento das respostas preserva as informações relevantes retornadas pela Focus NF-e, incluindo mensagens específicas de rejeição. Esses detalhes podem ser recuperados pela interface para ajudar o usuário a identificar o que precisa ser corrigido.</p>
+            <h3>5. Preservar o trabalho após uma falha</h3><p>Manter o formulário preenchido evita que o usuário refaça todas as alterações quando uma tentativa falha. O tratamento de erro passa a fazer parte da experiência de correção, junto dos estados de carregamento e confirmação.</p>
+            <h3>6. Rastreabilidade como evolução planejada</h3><p>O documento do projeto também descreve o desenho de auditoria com usuário responsável, valores anteriores e posteriores, campos alterados, origem e identificador de correlação. Esse ponto representa uma <strong>evolução desenhada</strong>; não é apresentado aqui como auditoria completa já implementada.</p>
+          </section>
+          <section class="section" id="tecnologias" aria-labelledby="tecnologias-titulo">
+            <p class="eyebrow">06 · Tecnologias e competências</p><h2 id="tecnologias-titulo">Uma stack aplicada a um problema operacional.</h2>
+            <table class="case-table"><caption style="text-align:left;color:var(--muted);margin-bottom:10px">Tecnologias diretamente relacionadas ao editor</caption><thead><tr><th scope="col">Camada</th><th scope="col">Tecnologias</th><th scope="col">Aplicação</th></tr></thead><tbody><tr><th scope="row">Interface</th><td>React, Next.js, TypeScript</td><td>Formulários, estado e comunicação com a API</td></tr><tr><th scope="row">Componentes</th><td>Tailwind CSS, Shadcn/UI</td><td>Estilização, modais e componentes de formulário</td></tr><tr><th scope="row">Back-end</th><td>Node.js, NestJS, TypeScript</td><td>APIs REST, DTOs, validações e regras de negócio</td></tr><tr><th scope="row">Persistência</th><td>TypeORM, PostgreSQL</td><td>Atualização de pedido e itens em transação</td></tr><tr><th scope="row">Integrações</th><td>Focus NF-e, ViaCEP</td><td>Reprocessamento fiscal e consulta de endereço</td></tr><tr><th scope="row">Diagnóstico</th><td>SQL, DBeaver, Insomnia</td><td>Investigação de dados, requisições e respostas</td></tr></tbody></table>
+            <p>O projeto reúne <strong>análise de requisitos, desenvolvimento Full Stack, integração de sistemas, modelagem de contratos, consistência transacional e diagnóstico de falhas</strong>.</p>
+            <p>O Sentry integra um ecossistema maior de e-commerce e gestão operacional. Este case se concentra no editor e nas tecnologias diretamente descritas para essa funcionalidade.</p>
+          </section>
+          <section class="section" id="resultado" aria-labelledby="resultado-titulo">
+            <p class="eyebrow">07 · Resultado e aprendizado</p><h2 id="resultado-titulo">Mais autonomia para corrigir, mais clareza para reprocessar.</h2>
+            <p>O resultado descrito para o projeto foi a centralização da correção de dados da NF-e em uma interface operacional, contribuindo para reduzir retrabalho, agilizar o tratamento de rejeições e diminuir a necessidade de intervenções técnicas diretas nos dados.</p>
+            <ul><li><strong>Correção acessível:</strong> edição de informações cadastrais e fiscais no fluxo do sistema.</li><li><strong>Qualidade dos dados:</strong> validação antes de uma nova tentativa de processamento.</li><li><strong>Diagnóstico mais claro:</strong> mensagens específicas da integração no lugar de uma falha genérica.</li><li><strong>Continuidade operacional:</strong> preservação das informações preenchidas após erros.</li></ul>
+            <p>O principal aprendizado foi acompanhar a operação de ponta a ponta: <strong>uma interface utilizável, um contrato válido, dados consistentes e um retorno externo corretamente interpretado</strong> precisam funcionar juntos.</p>
+            <p class="case-note">Case elaborado a partir do relato técnico do projeto. Os resultados são qualitativos; não há percentuais, volumes ou economia de tempo medidos no material disponível. O código do sistema interno não foi inspecionado nesta revisão. A apresentação utiliza descrições funcionais, sem dados de clientes ou detalhes privados de infraestrutura.</p>
+            <div class="case-actions"><a class="textlink" href="index.html#projetos">Voltar aos projetos <span aria-hidden="true">←</span></a><a class="textlink" href="assets/raphael-azevdo-curriculo.pdf" download="Raphael-Azevdo-Curriculo.pdf">Baixar currículo <span aria-hidden="true">↓</span></a></div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer class="foot case-footer"><span>Raphael Azevdo</span><a href="mailto:raphaelazevedoo32@gmail.com">Vamos conversar</a></footer>
+  </div>
+</body>
+</html>
